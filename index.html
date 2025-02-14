@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Flash Card</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+
+        <style>
+            .single-flashCard {
+                transition: transform 0.3s;
+                transform-style: preserve-3d;
+                cursor: pointer;
+                position: relative;
+                perspective: 600px;
+            }
+
+            .single-flashCard.is-flipped {
+                transform: rotateX(180deg);
+            }
+            .card__face {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                color: #000;
+                text-align: center;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            .card__face--front {
+                background: #fff;
+            }
+            .card__face--back {
+                background: #fff;
+                transform: rotateX(180deg);
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- modal -->
+        <div
+            class="h-screen w-screen bg-[#000000ad] overflow-auto py-10 px-5 fixed grid place-items-center backdrop-blur-sm top-0 right-0 left-0 z-50 w-full inset-0 h-modal h-full justify-center items-center"
+        >
+            <div class="relative w-full container m-auto">
+                <svg
+                    class="absolute right-2 top-2 text-lg cursor-pointer z-50"
+                    onclick="this.parentNode.parentNode.classList.add('hidden')"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-x"
+                >
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                </svg>
+
+                <div class="rounded bg-white w-[900px] max-w-[95vw] bg-white p-5 pt-20 relative overflow-hidden">
+                    <div class="flashCardSwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div
+                                    onclick="this.classList.toggle('is-flipped')"
+                                    class="single-flashCard border-2 border-gray-200 shadow-lg rounded-lg bg-white w-full max-w-[700px] mx-auto min-h-[400px]"
+                                >
+                                    <div class="card__face card__face--front p-5 grid place-items-center">
+                                        <div class="text-2xl font-semibold text-slate-800">What is the capital of Pakistan?</div>
+                                        <div
+                                            style="border-radius: 0px 0px 0.5rem 0.5rem"
+                                            class="absolute -bottom-2 left-0 w-full p-2 font-semibold text-sm rounded-lb-lg text-center bg-blue-800 text-white"
+                                        >
+                                            Click to flip the card
+                                        </div>
+                                    </div>
+                                    <div class="card__face card__face--back p-5 grid place-items-center">
+                                        <p class="flashCardAnswer text-2xl font-semibold text-slate-800">Islamabad</p>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="absolute left-5 -top-14 cursor-pointer group"
+                                    onclick="
+                                    $(this).addClass('active');
+                                    $(this).find('.flashCardHint').text($(this).parent().find('.flashCardAnswer').text().slice(0, 3) + '___');setTimeout(()=>{
+                                        $(this).find('.flashCardHint').text('Get a hint');
+                                        $(this).removeClass('active')
+                                    },2000)"
+                                >
+                                    <div class="flex items-center gap-1 group-[&.active]:bg-gray-100 rounded-full px-3 py-1">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="lucide lucide-lightbulb"
+                                        >
+                                            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                                            <path d="M9 18h6" />
+                                            <path d="M10 22h4" />
+                                        </svg>
+                                        <div class="flashCardHint text-sm font-semibold">Get a hint</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div
+                                    onclick="this.classList.toggle('is-flipped')"
+                                    class="single-flashCard border-2 border-gray-200 shadow-lg rounded-lg bg-white w-full max-w-[700px] mx-auto min-h-[400px]"
+                                >
+                                    <div class="card__face card__face--front p-5 grid place-items-center">
+                                        <div class="text-2xl font-semibold text-slate-800">What is the capital of Bangladesh?</div>
+                                        <div
+                                            style="border-radius: 0px 0px 0.5rem 0.5rem"
+                                            class="absolute -bottom-2 left-0 w-full p-2 font-semibold text-sm rounded-lb-lg text-center bg-blue-800 text-white"
+                                        >
+                                            Click to flip the card
+                                        </div>
+                                    </div>
+                                    <div class="card__face card__face--back p-5 grid place-items-center">
+                                        <p class="flashCardAnswer text-2xl font-semibold text-slate-800">Dhaka</p>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="absolute left-5 -top-14 cursor-pointer group"
+                                    onclick="
+                                    $(this).addClass('active');
+                                    $(this).find('.flashCardHint').text($(this).parent().find('.flashCardAnswer').text().slice(0, 3) + '___');setTimeout(()=>{
+                                        $(this).find('.flashCardHint').text('Get a hint');
+                                        $(this).removeClass('active')
+                                    },2000)"
+                                >
+                                    <div class="flex items-center gap-1 group-[&.active]:bg-gray-100 rounded-full px-3 py-1">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="16"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="lucide lucide-lightbulb"
+                                        >
+                                            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" />
+                                            <path d="M9 18h6" />
+                                            <path d="M10 22h4" />
+                                        </svg>
+                                        <div class="flashCardHint text-sm font-semibold">Get a hint</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative w-[150px] h-[100px] mx-auto">
+                        <div class="swiper-button-prev after:!text-xl !text-slate-600 font-bold border-[3px] hover:bg-gray-100 border-slate-300 rounded-full !w-[60px]"></div>
+                        <div class="swiper-button-next after:!text-xl !text-slate-600 font-bold border-[3px] hover:bg-gray-100 border-slate-300 rounded-full !w-[60px]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+        <script>
+            const flashCardSliderOptions = {
+                slidesPerView: 1,
+                // Navigation arrows
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            };
+            new Swiper(".flashCardSwiper", flashCardSliderOptions);
+        </script>
+    </body>
+</html>
