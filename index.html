@@ -42,11 +42,12 @@
     <body>
         <!-- modal -->
         <div
-            class="h-screen w-screen bg-[#000000ad] overflow-auto py-10 px-5 fixed grid place-items-center backdrop-blur-sm top-0 right-0 left-0 z-50 w-full inset-0 h-modal h-full justify-center items-center"
+            id="lessonflashCardPopup"
+            class="h-screen w-screen bg-[#000000ad] overflow-auto py-5 fixed grid place-items-center backdrop-blur-sm top-0 right-0 left-0 z-50 w-full inset-0 h-modal h-full justify-center items-center"
         >
             <div class="relative w-full container m-auto">
                 <svg
-                    class="absolute right-2 top-2 text-lg cursor-pointer z-50"
+                    class="absolute right-0 top-0 text-lg cursor-pointer z-50"
                     onclick="this.parentNode.parentNode.classList.add('hidden')"
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -69,31 +70,43 @@
                             <div class="swiper-slide">
                                 <div
                                     onclick="this.classList.toggle('is-flipped')"
-                                    class="single-flashCard border-2 border-gray-200 shadow-lg rounded-lg bg-white w-full max-w-[700px] mx-auto min-h-[400px]"
+                                    class="single-flashCard border-2 border-gray-200 shadow-lg rounded-lg bg-white w-full max-w-[700px] mx-auto md:min-h-[400px] min-h-[200px]"
                                 >
-                                    <div class="card__face card__face--front p-5 grid place-items-center">
-                                        <div class="text-2xl font-semibold text-slate-800">What is the capital of Pakistan?</div>
+                                    <div class="card__face card__face--front p-6 grid place-items-center">
+                                        <div class="flashCardQuestion text-2xl font-semibold text-slate-800">What is the capital of Bangladesh?</div>
                                         <div
                                             style="border-radius: 0px 0px 0.5rem 0.5rem"
-                                            class="absolute -bottom-2 left-0 w-full p-2 font-semibold text-sm rounded-lb-lg text-center bg-blue-800 text-white"
+                                            class="absolute -bottom-2 left-0 w-full p-2 font-semibold text-sm rounded-lb-lg text-center bg-[#1F1C8B] text-white"
                                         >
                                             Click to flip the card
                                         </div>
                                     </div>
                                     <div class="card__face card__face--back p-5 grid place-items-center">
-                                        <p class="flashCardAnswer text-2xl font-semibold text-slate-800">Islamabad</p>
+                                        <p class="flashCardAnswer text-2xl font-semibold text-slate-800">Dhaka</p>
                                     </div>
                                 </div>
 
-                                <div
-                                    class="absolute left-5 -top-14 cursor-pointer group"
-                                    onclick="
-                                    $(this).addClass('active');
-                                    $(this).find('.flashCardHint').text($(this).parent().find('.flashCardAnswer').text().slice(0, 3) + '___');setTimeout(()=>{
-                                        $(this).find('.flashCardHint').text('Get a hint');
-                                        $(this).removeClass('active')
-                                    },2000)"
-                                >
+                                <div class="cursor-pointer text-slate-600 hover:text-slate-800 absolute right-10 -top-14" onclick="speakFlashCardText(this)">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-volume-2"
+                                    >
+                                        <path
+                                            d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"
+                                        />
+                                        <path d="M16 9a5 5 0 0 1 0 6" />
+                                        <path d="M19.364 18.364a9 9 0 0 0 0-12.728" />
+                                    </svg>
+                                </div>
+
+                                <div class="absolute left-5 -top-14 cursor-pointer group" onclick="getFlashCardHints(this)">
                                     <div class="flex items-center gap-1 group-[&.active]:bg-gray-100 rounded-full px-3 py-1">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -117,31 +130,43 @@
                             <div class="swiper-slide">
                                 <div
                                     onclick="this.classList.toggle('is-flipped')"
-                                    class="single-flashCard border-2 border-gray-200 shadow-lg rounded-lg bg-white w-full max-w-[700px] mx-auto min-h-[400px]"
+                                    class="single-flashCard border-2 border-gray-200 shadow-lg rounded-lg bg-white w-full max-w-[700px] mx-auto md:min-h-[400px] min-h-[200px]"
                                 >
-                                    <div class="card__face card__face--front p-5 grid place-items-center">
-                                        <div class="text-2xl font-semibold text-slate-800">What is the capital of Bangladesh?</div>
+                                    <div class="card__face card__face--front p-6 grid place-items-center">
+                                        <div class="flashCardQuestion text-2xl font-semibold text-slate-800">What is the capital of Pakistan?</div>
                                         <div
                                             style="border-radius: 0px 0px 0.5rem 0.5rem"
-                                            class="absolute -bottom-2 left-0 w-full p-2 font-semibold text-sm rounded-lb-lg text-center bg-blue-800 text-white"
+                                            class="absolute -bottom-2 left-0 w-full p-2 font-semibold text-sm rounded-lb-lg text-center bg-[#1F1C8B] text-white"
                                         >
                                             Click to flip the card
                                         </div>
                                     </div>
                                     <div class="card__face card__face--back p-5 grid place-items-center">
-                                        <p class="flashCardAnswer text-2xl font-semibold text-slate-800">Dhaka</p>
+                                        <p class="flashCardAnswer text-2xl font-semibold text-slate-800">Hola como estas</p>
                                     </div>
                                 </div>
 
-                                <div
-                                    class="absolute left-5 -top-14 cursor-pointer group"
-                                    onclick="
-                                    $(this).addClass('active');
-                                    $(this).find('.flashCardHint').text($(this).parent().find('.flashCardAnswer').text().slice(0, 3) + '___');setTimeout(()=>{
-                                        $(this).find('.flashCardHint').text('Get a hint');
-                                        $(this).removeClass('active')
-                                    },2000)"
-                                >
+                                <div class="cursor-pointer text-slate-600 hover:text-slate-800 absolute right-10 -top-14" onclick="speakFlashCardText(this)">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="lucide lucide-volume-2"
+                                    >
+                                        <path
+                                            d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"
+                                        />
+                                        <path d="M16 9a5 5 0 0 1 0 6" />
+                                        <path d="M19.364 18.364a9 9 0 0 0 0-12.728" />
+                                    </svg>
+                                </div>
+
+                                <div class="absolute left-5 -top-14 cursor-pointer group" onclick="getFlashCardHints(this)">
                                     <div class="flex items-center gap-1 group-[&.active]:bg-gray-100 rounded-full px-3 py-1">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +190,7 @@
                         </div>
                     </div>
 
-                    <div class="relative w-[150px] h-[100px] mx-auto">
+                    <div class="relative w-[150px] h-[60px] mt-5 mx-auto">
                         <div class="swiper-button-prev after:!text-xl !text-slate-600 font-bold border-[3px] hover:bg-gray-100 border-slate-300 rounded-full !w-[60px]"></div>
                         <div class="swiper-button-next after:!text-xl !text-slate-600 font-bold border-[3px] hover:bg-gray-100 border-slate-300 rounded-full !w-[60px]"></div>
                     </div>
@@ -179,13 +204,41 @@
         <script>
             const flashCardSliderOptions = {
                 slidesPerView: 1,
-                // Navigation arrows
+                spaceBetween: 50,
                 navigation: {
                     nextEl: ".swiper-button-next",
                     prevEl: ".swiper-button-prev",
                 },
             };
             new Swiper(".flashCardSwiper", flashCardSliderOptions);
+
+            function getFlashCardHints(element) {
+                if (element) {
+                    $(element).addClass("active");
+                    $(element)
+                        .find(".flashCardHint")
+                        .text($(element).parent().find(".flashCardAnswer").text().slice(0, 3) + "___");
+                    setTimeout(() => {
+                        $(element).find(".flashCardHint").text("Get a hint");
+                        $(element).removeClass("active");
+                    }, 2000);
+                }
+            }
+
+            function speakFlashCardText(element) {
+                if (element) {
+                    var text;
+                    if ($(element).parent().find(".single-flashCard").hasClass("is-flipped")) {
+                        text = $(element).parent().find(".flashCardAnswer").text();
+                    } else {
+                        text = $(element).parent().find(".flashCardQuestion").text();
+                    }
+                    let speech = new SpeechSynthesisUtterance(text);
+                    speech.rate = 0.8;
+                    speech.lang = "es-ES";
+                    speechSynthesis.speak(speech);
+                }
+            }
         </script>
     </body>
 </html>
